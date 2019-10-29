@@ -14,6 +14,11 @@ import ReactDOM from 'react-dom';
 */
 
 const App = () => {
+  /* 
+    JSX (the content of the render method) gets compiled to JS call to
+    React.createElement 
+  */
+
   // function component
   return <div>Hello World!</div>;
 }
