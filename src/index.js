@@ -5,6 +5,8 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import CommentDetail from './CommentDetail';
+import ApprovalCard from './ApprovalCard';
 
 
 /* 
@@ -20,7 +22,15 @@ const App = () => {
   */
 
   // function component
-  return <div>Hello World!</div>;
+  return (
+    <div className="ui container comments">
+      <ApprovalCard>
+        <CommentDetail author="Sam"/>
+      </ApprovalCard>
+      <CommentDetail author="Alex"/>
+      <CommentDetail author="Jane"/>
+    </div>
+  );
 }
 
 ReactDOM.render(
