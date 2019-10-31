@@ -1,50 +1,35 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import SeasonDisplay from './SeasonDisplay';
+import Spinner from './Spinner';
 
 class App extends React.Component {
-  /*
-    React.Component contains other methods that can be used in sub classes
-  */
+  state = { lat: null, errorMsg: '' };
 
-  constructor(props) {
-    super(props); // should always do this
-
-    /* 
-      one way to init state is to use the constructor 
-    */
-    this.state = {
-      lat: null,
-      errorMsg: ''
-    };
-
+  componentDidMount() {
     window.navigator.geolocation.getCurrentPosition(
-      (position) => {
-        /*
-          setState is inherited from React.Component
-          MUST be called to update state. Should NEVER update state directly
-          !! Updating state updates the properties specified and does not replace the whole state !!
-        */
-        this.setState({ lat: position.coords.latitude });
-      },
-      (error) => {
-        this.setState({ errorMsg: error.message })
-      }
+      position => this.setState({ lat: position.coords.latitude }),
+      error => this.setState({ errorMsg: error.message })
     );
   }
 
-  /*
-    must have this method
-    it gets called frequently so should be as light as possible
-  */
-  render() {
-    // conditional rendering
+  renderContent() {
+    // helper method to determine the appropriate content to keep render() light
     if (this.state.errorMsg && !this.state.lat) {
       return <div>Error: {this.state.errorMsg}</div>;
     } else if (!this.state.errorMsg && this.state.lat) {
-      return <div>Latitude: {this.state.lat}</div>;
+      return <SeasonDisplay lat={this.state.lat} />;
     } else {
-      return <div>Loading</div>;
+      return <Spinner />;
     }
+  }
+
+  render() {
+    return (
+      <div className="border red">
+        {this.renderContent()}
+      </div>
+    );
   }
 }
 
